@@ -1,0 +1,10 @@
+
+### Compatible API types
+{{ range $_, $t := .Plugin.ApiTypes }}
+* `{{ upper $t }}`
+{{- end }}
+
+### Supported flow phases:
+{{ range $_, $p := .Plugin.FlowPhases }}
+* {{ title $p }}
+{{- end }}

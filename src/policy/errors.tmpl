@@ -1,0 +1,10 @@
+These templates are defined at the API level, in the "Entrypoint" section for v4 APIs, or in "Response Templates" for v2 APIs.
+The error keys sent by this policy are as follows:
+
+{{ range $col := .Columns }}| {{ $col.Label }}{{- end }} |
+{{ range $_ := .Columns }}| --- {{ end }} |
+{{ range $row := .Rows }}
+{{- range $col := $.Columns -}}
+| {{ if $row.Deprecated }}~~{{ end }}{{ default (index $row.Data $col.ID) "-" }}{{ if $row.Deprecated }}~~{{ end }}
+{{- end }} |
+{{ end -}}
