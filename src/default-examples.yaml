@@ -18,6 +18,9 @@ templates:
   - id: v4-api-proxy
     title: Proxy API With Defaults
     language: json
+  - id: v4-api-proxy-with-resource
+    title: Proxy API With resource
+    language: json
   - id: v4-api-message
     title: Message API With Defaults
     language: json

@@ -1,0 +1,32 @@
+{
+  "api": {
+    "definitionVersion": "V4",
+    "type": "PROXY",
+    "name": "{{ .Title }} example API",
+    "resources": [
+      {{ indent 6 .Properties.resource }}
+    ],
+    "flows": [
+      {
+        "name": "Common Flow",
+        "enabled": true,
+        "selectors": [
+          {
+            "type": "HTTP",
+            "path": "/",
+            "pathOperator": "STARTS_WITH"
+          }
+        ],
+        "{{ .Properties.phase }}": [
+          {
+            "name": "{{ .Title }}",
+            "enabled": true,
+            "policy": "{{ .ID }}",
+            "configuration":
+              {{ indent 14 .Node }}
+          }
+        ]
+      }
+    ]
+  }
+}
