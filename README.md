@@ -12,5 +12,5 @@ To run doc-gen you must indicate where its configuration is:
 
 * `DOCGEN_ROOT=/path/to/gravitee-doc-gen-config/src`
 * or `doc-gen --config-dir /path/to/gravitee-doc-gen-config/src`
-
+* or `docker run -v $DOCGEN_ROOT:/config -v ./:/plugin graviteeio.azurecr.io/doc-gen`
 
