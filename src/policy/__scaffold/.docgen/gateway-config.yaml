@@ -1,0 +1,14 @@
+before: .docgen/gateway-config/before.md
+after: .docgen/gateway-config/after.md
+snippets:
+    - title: "gravitee.yml"
+      language: YAML
+      content: |
+        fake:
+          param: true
+    - title: "Environment variables (Helm)"
+      language: YAML
+      content: |
+        gateway:
+          fake:
+            param: true
