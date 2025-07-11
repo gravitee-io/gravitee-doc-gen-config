@@ -1,0 +1,10 @@
+# MANDATORY
+rows:
+    - data:
+          plugin: "2.x"
+          apim: "4.5.x and above"
+          am: "4.5.x and above"
+    - data:
+          plugin: "1.x"
+          apim: "4.4.x and below"
+          am: "4.4.x and below"
