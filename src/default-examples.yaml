@@ -24,6 +24,12 @@ templates:
   - id: v4-api-message
     title: Message API With Defaults
     language: json
+  - id: v4-api-llm-proxy
+    title: Proxy API With Defaults
+    language: json
+  - id: v4-api-mcp-proxy
+    title: Proxy API With Defaults
+    language: json
   - id: v4-api-kafka-native
     title: Kafka Native API With Defaults
     language: json
