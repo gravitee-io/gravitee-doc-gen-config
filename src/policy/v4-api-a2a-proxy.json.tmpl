@@ -1,0 +1,28 @@
+{
+  "api": {
+    "definitionVersion": "V4",
+    "type": "A2A_PROXY",
+    "name": "{{ .Title }} example API",
+    "flows": [
+      {
+        "name": "All plans flow",
+        "enabled": true,
+        "selectors": [
+          {
+            "type": "HTTP",
+             "methods" : []
+          }
+        ],
+        "{{ .Properties.phase }}": [
+          {
+            "name": "{{ .Title }}",
+            "enabled": true,
+            "policy": "{{ .ID }}",
+            "configuration":
+              {{ indent 14 .Node }}
+          }
+        ]
+      }
+    ]
+  }
+}
