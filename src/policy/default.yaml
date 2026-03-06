@@ -47,20 +47,20 @@ chunks:
     type: options
     required: true
     data:
-      schema: src/main/resources/schemas/schema-form.json
+      schema: target/classes/schemas/schema-form.json
   - template: "{{ .RootDir }}/examples.tmpl"
     exportedAs: GenExamples
     type: gen-examples
     data:
       examples: .docgen/examples.yaml
-      schema: src/main/resources/schemas/schema-form.json
+      schema: target/classes/schemas/schema-form.json
     required: true
   - template: "{{ .RootDir }}/examples.tmpl"
     exportedAs: RawExamples
     type: raw-examples
     data:
       examples: .docgen/examples.yaml
-      schema: src/main/resources/schemas/schema-form.json
+      schema: target/classes/schemas/schema-form.json
     required: true
   - template: "{{ .RootDir }}/gateway_config.tmpl"
     type: code
