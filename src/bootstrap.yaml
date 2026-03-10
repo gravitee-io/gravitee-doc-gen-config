@@ -14,6 +14,7 @@
 
 data:
   - file: src/main/resources/plugin.properties
+    fallbackFile: .docgen/plugin.properties
     exportedAs: Plugin
   - file: {{ .RootDir }}/default-examples.yaml
     exportedAs: DefaultExamples
