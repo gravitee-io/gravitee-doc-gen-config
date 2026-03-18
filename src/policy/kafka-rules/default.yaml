@@ -16,16 +16,18 @@ outputs:
  - template : "{{ .RootDir }}/{{ .Plugin.Type }}/{{ .Plugin.ID }}/README.tmpl"
    target: README.md
    processExisting: true
- - template : "{{ .RootDir }}/{{ .Plugin.Type }}/POLICY_STUDIO_DOC.tmpl"
-   target: docs/POLICY_STUDIO_DOC.md
  - template : "{{ .RootDir }}/{{ .Plugin.Type }}/{{ .Plugin.ID }}/README_produce.tmpl"
-   target: gravitee-policy-kafka-produce-rules/README.md
+   target: gravitee-policy-kafka-produce-rules/docs/POLICY_STUDIO_DOC.md
+   processExisting: true
  - template : "{{ .RootDir }}/{{ .Plugin.Type }}/{{ .Plugin.ID }}/README_fetch.tmpl"
-   target: gravitee-policy-kafka-fetch-rules/README.md
+   target: gravitee-policy-kafka-fetch-rules/docs/POLICY_STUDIO_DOC.md
+   processExisting: true
  - template : "{{ .RootDir }}/{{ .Plugin.Type }}/{{ .Plugin.ID }}/README_create_topic.tmpl"
-   target: gravitee-policy-kafka-create-topic-rules/README.md
+   target: gravitee-policy-kafka-create-topic-rules/docs/POLICY_STUDIO_DOC.md
+   processExisting: true
  - template : "{{ .RootDir }}/{{ .Plugin.Type }}/{{ .Plugin.ID }}/README_alter_topic.tmpl"
-   target: gravitee-policy-kafka-alter-topic-rules/README.md
+   target: gravitee-policy-kafka-alter-topic-rules/docs/POLICY_STUDIO_DOC.md
+   processExisting: true
 chunks:
   - template: .docgen/overview.md
     required: true
