@@ -1,15 +1,7 @@
 # Kafka Fetch Rules Policy
 
-[![Gravitee.io](https://img.shields.io/static/v1?label=Available%20at&message=Gravitee.io&color=1EC9D2)](https://download.gravitee.io/#graviteeio-apim/plugins/policies/gravitee-policy-{{ .Plugin.ID }}/)
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/gravitee-io/gravitee-policy-{{ .Plugin.ID }}/blob/master/LICENSE.txt)
-
 ## Overview
 {{ .FetchOverview.Content }}
-{{ if .Usage.Exists }}
-
-## Usage
-{{ .Usage.Content }}
-{{ end }}
 {{ if .Errors.Exists }}
 
 ## Errors
@@ -24,7 +16,3 @@ The `{{ .Plugin.ID }}` policy can be applied to the following API types and flow
 ## Configuration options
 {{ .FetchConfigurationOptions.Content}}
 {{ end }}
-
-## Examples
-{{ .GenExamples.Content }}
-{{ .RawExamples.Content }}
