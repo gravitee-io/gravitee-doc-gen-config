@@ -1,0 +1,19 @@
+{{ $overviewKey := .Vars.overviewChunk }}{{ $configKey := .Vars.configChunk }}{{ $overview := index . $overviewKey }}{{ $config := index . $configKey -}}
+# {{ .Vars.moduleName }}
+
+## Overview
+{{ $overview.Content }}
+{{ if .Errors.Exists }}
+
+## Errors
+{{ .Errors.Content }}
+{{end }}
+
+## Phases
+The `{{ .Plugin.ID }}` policy can be applied to the following API types and flow phases.
+{{ .Phases.Content }}
+
+{{ if $config.Exists }}
+## Configuration options
+{{ $config.Content }}
+{{ end }}
