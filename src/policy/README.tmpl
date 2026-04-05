@@ -29,14 +29,14 @@ The `{{ .Plugin.ID }}` policy can be applied to the following API types and flow
 ## Configuration
 ### Gateway configuration
 {{ .Gateway_config.Content }}
-
+{{ if .Configuration_options }}
 ### Configuration options
-{{ else -}}
-## Configuration options
-{{ end }}
+{{ end }}{{ else -}}
+{{ if .Configuration_options }}## Configuration options
+{{ end }}{{ end }}{{ if .Configuration_options }}
 {{ .Configuration_options.Content}}
 
-## Examples
+{{ end }}## Examples
 {{ .GenExamples.Content }}
 {{ .RawExamples.Content }}
 
