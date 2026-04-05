@@ -16,8 +16,16 @@ outputs:
  - template : "{{ .RootDir }}/{{ .Plugin.Type }}/README.tmpl"
    target: README.md
    processExisting: true
- - template : "{{ .RootDir }}/{{ .Plugin.Type }}/POLICY_STUDIO_DOC.tmpl"
+{{ if .Modules }}{{ range .Modules }} - template : "{{ $.RootDir }}/{{ $.Plugin.Type }}/POLICY_STUDIO_DOC_MODULE.tmpl"
+   target: "{{ .Path }}/docs/POLICY_STUDIO_DOC.md"
+   processExisting: true
+   vars:
+     moduleName: "{{ .Name }}"
+     overviewChunk: "{{ .ExportedAs }}Overview"
+     configChunk: "{{ .ExportedAs }}ConfigurationOptions"
+{{ end }}{{ else }} - template : "{{ .RootDir }}/{{ .Plugin.Type }}/POLICY_STUDIO_DOC.tmpl"
    target: docs/POLICY_STUDIO_DOC.md
+{{ end }}
 chunks:
   - template: .docgen/overview.md
     required: true
@@ -43,12 +51,35 @@ chunks:
         - comment: Comment
   - template: "{{ .RootDir }}/policy/phases.tmpl"
     required: true
-  - template: "{{ .RootDir }}/configuration_options.tmpl"
+{{ if .Modules }}{{ range .Modules }}  - template: "{{ .Path }}/.docgen/overview.md"
+    exportedAs: "{{ .ExportedAs }}Overview"
+    required: true
+  - template: "{{ $.RootDir }}/configuration_options.tmpl"
+    type: options
+    required: true
+    exportedAs: "{{ .ExportedAs }}ConfigurationOptions"
+    data:
+      schema: "{{ .Path }}/target/classes/schemas/schema-form.json"
+{{ end }}{{ else }}  - template: "{{ .RootDir }}/configuration_options.tmpl"
     type: options
     required: true
     data:
       schema: target/classes/schemas/schema-form.json
+{{ end }}{{ if .Modules }}  - template: "{{ .RootDir }}/examples.tmpl"
+    exportedAs: GenExamples
+    type: gen-examples
+    required: false
+    data:
+      examples: .docgen/examples.yaml
+      schema: "{{ (index .Modules 0).Path }}/target/classes/schemas/schema-form.json"
   - template: "{{ .RootDir }}/examples.tmpl"
+    exportedAs: RawExamples
+    type: raw-examples
+    required: false
+    data:
+      examples: .docgen/examples.yaml
+      schema: "{{ (index .Modules 0).Path }}/target/classes/schemas/schema-form.json"
+{{ else }}  - template: "{{ .RootDir }}/examples.tmpl"
     exportedAs: GenExamples
     type: gen-examples
     data:
@@ -62,6 +93,7 @@ chunks:
       examples: .docgen/examples.yaml
       schema: target/classes/schemas/schema-form.json
     required: true
+{{ end }}
   - template: "{{ .RootDir }}/gateway_config.tmpl"
     type: code
     data:
@@ -69,4 +101,3 @@ chunks:
   - template: CHANGELOG.md
     exportedAs: ChangeLog
     required: true
-    

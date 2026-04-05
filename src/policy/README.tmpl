@@ -24,17 +24,20 @@ The `{{ .Plugin.ID }}` policy can be applied to the following API types and flow
 
 ## Compatibility matrix
 {{ .Matrix.Content }}
+{{- if .Gateway_config.Exists }}
 
-{{ if .Gateway_config.Exists }}
 ## Configuration
 ### Gateway configuration
 {{ .Gateway_config.Content }}
-
+{{ if and .Configuration_options .Configuration_options.Exists }}
 ### Configuration options
-{{ else -}}
-## Configuration options
-{{ end }}
 {{ .Configuration_options.Content}}
+{{- end }}
+{{- else if and .Configuration_options .Configuration_options.Exists }}
+
+## Configuration options
+{{ .Configuration_options.Content}}
+{{- end }}
 
 ## Examples
 {{ .GenExamples.Content }}
