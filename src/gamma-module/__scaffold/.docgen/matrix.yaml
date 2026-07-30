@@ -1,0 +1,13 @@
+# MANDATORY
+rows:
+    - data:
+          module: "2.x"
+          apim: "4.9.x and above"
+          am: "4.9.x and above"
+          java: "21+"
+    - data:
+          module: "1.x"
+          apim: "4.8.x and below"
+          am: "4.8.x and below"
+          java: "17+"
+          comment: "Deprecated, upgrade to 2.x"
