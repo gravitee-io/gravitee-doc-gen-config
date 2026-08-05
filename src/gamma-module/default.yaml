@@ -18,7 +18,7 @@ outputs:
 chunks:
   - template: .docgen/overview.md
     required: true
-  - template: "{{ .RootDir }}/matrix.tmpl"
+  - template: "{{ .RootDir }}/{{ .Plugin.Type }}/matrix.tmpl"
     type: table
     required: true
     data:

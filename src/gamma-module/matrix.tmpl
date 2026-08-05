@@ -1,0 +1,41 @@
+{{- /*
+  Same table as the shared matrix.tmpl, but padded the way Prettier formats
+  markdown tables: every column is as wide as its widest cell (minimum 3),
+  header and delimiter row included. Gamma module repositories run
+  `prettier --check .` over their README, so an unpadded table would make the
+  lint job and the doc-gen "no diff" job contradict each other.
+*/ -}}
+{{- $dashes := "----------------------------------------------------------------------------------------------------" -}}
+{{- $head := "" -}}
+{{- $delimiter := "" -}}
+{{- range $col := .Columns -}}
+  {{- $width := len $col.Label -}}
+  {{- range $row := $.Rows -}}
+    {{- $cell := printf "%v" (default (index $row.Data $col.ID) "-") -}}
+    {{- if $row.Deprecated }}{{ $cell = printf "~~%s~~" $cell }}{{ end -}}
+    {{- if lt $width (len $cell) }}{{ $width = len $cell }}{{ end -}}
+  {{- end -}}
+  {{- if lt $width 3 }}{{ $width = 3 }}{{ end -}}
+  {{- $head = printf "%s| %-*s " $head $width $col.Label -}}
+  {{- $delimiter = printf "%s| %s " $delimiter (slice $dashes 0 $width) -}}
+{{- end -}}
+Strikethrough text indicates that a version is deprecated.
+
+{{ $head }}|
+{{ $delimiter }}|
+{{ range $row := .Rows -}}
+  {{- $line := "" -}}
+  {{- range $col := $.Columns -}}
+    {{- $width := len $col.Label -}}
+    {{- range $other := $.Rows -}}
+      {{- $cell := printf "%v" (default (index $other.Data $col.ID) "-") -}}
+      {{- if $other.Deprecated }}{{ $cell = printf "~~%s~~" $cell }}{{ end -}}
+      {{- if lt $width (len $cell) }}{{ $width = len $cell }}{{ end -}}
+    {{- end -}}
+    {{- if lt $width 3 }}{{ $width = 3 }}{{ end -}}
+    {{- $cell := printf "%v" (default (index $row.Data $col.ID) "-") -}}
+    {{- if $row.Deprecated }}{{ $cell = printf "~~%s~~" $cell }}{{ end -}}
+    {{- $line = printf "%s| %-*s " $line $width $cell -}}
+  {{- end -}}
+  {{- printf "%s|\n" $line -}}
+{{- end -}}
