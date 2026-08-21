@@ -1,0 +1,16 @@
+{
+  "api": {
+    "definitionVersion": "V4",
+    "type": "PROXY",
+    "name": "{{ .Title }} example API",
+    "resources": [
+      {
+        "name": "{{ .Properties.resourceName }}",
+        "type": "{{ .ID }}",
+        "enabled": true,
+        "configuration":
+          {{ indent 10 .Node }}
+      }
+    ]
+  }
+}
