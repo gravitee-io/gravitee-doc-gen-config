@@ -5,7 +5,7 @@
     "name": "{{ .Title }} example API",
     "resources": [
       {
-        "name": "{{ .Properties.resourceName }}",
+        "name": "{{ default .Properties.resourceName .ID }}",
         "type": "{{ .ID }}",
         "enabled": true,
         "configuration":
