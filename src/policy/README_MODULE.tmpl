@@ -1,0 +1,53 @@
+{{ $id := .Vars.exportedAs -}}
+{{ $overview := index . (printf "%sOverview" $id) }}{{ $usage := index . (printf "%sUsage" $id) }}{{ $errors := index . (printf "%sErrors" $id) -}}
+{{ $config := index . (printf "%sConfigurationOptions" $id) }}{{ $genExamples := index . (printf "%sGenExamples" $id) }}{{ $rawExamples := index . (printf "%sRawExamples" $id) -}}
+{{ $plugin := .Plugin }}{{ range .Modules }}{{ if and (eq .ID $.Vars.moduleId) .Plugin }}{{ $plugin = .Plugin }}{{ end }}{{ end -}}
+# {{ .Vars.moduleName }}
+
+[![Gravitee.io](https://img.shields.io/static/v1?label=Available%20at&message=Gravitee.io&color=1EC9D2)](https://download.gravitee.io/#graviteeio-apim/plugins/policies/gravitee-policy-{{ $plugin.ID }}/)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/gravitee-io/{{ .Plugin.Repository }}/blob/master/LICENSE.txt)
+[![Releases](https://img.shields.io/badge/semantic--release-conventional%20commits-e10079?logo=semantic-release)](https://github.com/gravitee-io/{{ .Plugin.Repository }}/releases)
+[![CircleCI](https://circleci.com/gh/gravitee-io/{{ .Plugin.Repository }}.svg?style=svg)](https://circleci.com/gh/gravitee-io/{{ .Plugin.Repository }})
+
+Part of [{{ .Plugin.Title }}](/README.md): see its compatibility matrix and changelog.
+
+## Overview
+{{ $overview.Content }}
+{{ if $usage.Exists }}
+
+## Usage
+{{ $usage.Content }}
+{{ end }}
+{{ if $errors.Exists }}
+
+## Errors
+{{ $errors.Content }}
+{{end }}
+
+## Phases
+The `{{ $plugin.ID }}` policy can be applied to the following API types and flow phases.
+
+### Compatible API types
+{{ range $_, $t := $plugin.ApiTypes }}
+* `{{ upper $t }}`
+{{- end }}
+
+### Supported flow phases:
+{{ range $_, $p := $plugin.FlowPhases }}
+* {{ title $p }}
+{{- end }}{{ if $plugin.GuardianPhases }}
+
+### Supported Guardian phases:
+As a step of a Guardian, run on the request or the response of the APIs that enable the Guardian.
+{{ range $_, $p := $plugin.GuardianPhases }}
+* {{ title $p }}
+{{- end }}
+{{- end }}
+
+## Configuration options
+{{ $config.Content }}
+{{ if or $genExamples.Exists $rawExamples.Exists }}
+## Examples
+{{ $genExamples.Content }}
+{{ $rawExamples.Content }}
+{{ end -}}
