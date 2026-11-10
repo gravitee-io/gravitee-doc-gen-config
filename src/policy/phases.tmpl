@@ -7,4 +7,11 @@
 ### Supported flow phases:
 {{ range $_, $p := .Plugin.FlowPhases }}
 * {{ title $p }}
+{{- end }}{{ if .Plugin.GuardianPhases }}
+
+### Supported Guardian phases:
+As a step of a Guardian, run on the request or the response of the APIs that enable the Guardian.
+{{ range $_, $p := .Plugin.GuardianPhases }}
+* {{ title $p }}
+{{- end }}
 {{- end }}
