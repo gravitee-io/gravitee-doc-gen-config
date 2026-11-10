@@ -1,5 +1,6 @@
 {{ $id := .Vars.exportedAs -}}
 {{ $overview := index . (printf "%sOverview" $id) }}{{ $usage := index . (printf "%sUsage" $id) }}{{ $errors := index . (printf "%sErrors" $id) -}}
+{{ if not $errors.Exists }}{{ $errors = .Errors }}{{ end -}}
 {{ $config := index . (printf "%sConfigurationOptions" $id) }}{{ $genExamples := index . (printf "%sGenExamples" $id) }}{{ $rawExamples := index . (printf "%sRawExamples" $id) -}}
 {{ $plugin := .Plugin }}{{ range .Modules }}{{ if and (eq .ID $.Vars.moduleId) .Plugin }}{{ $plugin = .Plugin }}{{ end }}{{ end -}}
 # {{ .Vars.moduleName }}
@@ -9,7 +10,7 @@
 [![Releases](https://img.shields.io/badge/semantic--release-conventional%20commits-e10079?logo=semantic-release)](https://github.com/gravitee-io/{{ .Plugin.Repository }}/releases)
 [![CircleCI](https://circleci.com/gh/gravitee-io/{{ .Plugin.Repository }}.svg?style=svg)](https://circleci.com/gh/gravitee-io/{{ .Plugin.Repository }})
 
-Part of [{{ .Plugin.Title }}](/README.md): see its compatibility matrix and changelog.
+Part of [{{ .Plugin.Title }}](/README.md): see its {{ if and (not $usage.Exists) .Usage.Exists }}usage, {{ end }}compatibility matrix and changelog.
 
 ## Overview
 {{ $overview.Content }}
