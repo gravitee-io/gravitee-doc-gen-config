@@ -1,0 +1,34 @@
+{{ $guardian := false }}{{ range .Modules }}{{ if and .Plugin .Plugin.GuardianPhases }}{{ $guardian = true }}{{ end }}{{ end -}}
+# {{ .Plugin.Title }}
+
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/gravitee-io/{{ .Plugin.Repository }}/blob/master/LICENSE.txt)
+[![Releases](https://img.shields.io/badge/semantic--release-conventional%20commits-e10079?logo=semantic-release)](https://github.com/gravitee-io/{{ .Plugin.Repository }}/releases)
+[![CircleCI](https://circleci.com/gh/gravitee-io/{{ .Plugin.Repository }}.svg?style=svg)](https://circleci.com/gh/gravitee-io/{{ .Plugin.Repository }})
+
+## Overview
+{{ .Overview.Content }}
+{{ if .Usage.Exists }}
+
+## Usage
+{{ .Usage.Content }}
+{{ end }}
+{{ if .Errors.Exists }}
+
+## Errors
+{{ .Errors.Content }}
+{{end }}
+
+## Policies
+Each policy has its own documentation: its phases, its configuration options and examples.
+
+| Policy | Id | Compatible API types | Supported flow phases |{{ if $guardian }} Supported Guardian phases |{{ end }}
+| --- | --- | --- | --- |{{ if $guardian }} --- |{{ end }}
+{{ range .Modules }}{{ if .Plugin -}}
+| [{{ .Name }}]({{ .Path }}/README.md) | `{{ .Plugin.ID }}` | {{ range $i, $t := .Plugin.ApiTypes }}{{ if $i }}, {{ end }}`{{ upper $t }}`{{ end }} | {{ range $i, $p := .Plugin.FlowPhases }}{{ if $i }}, {{ end }}{{ title $p }}{{ end }} |{{ if $guardian }} {{ range $i, $p := .Plugin.GuardianPhases }}{{ if $i }}, {{ end }}{{ title $p }}{{ else }}-{{ end }} |{{ end }}
+{{ end }}{{ end }}
+## Compatibility matrix
+{{ .Matrix.Content }}
+
+## Changelog
+
+{{ mvmdheader 2 .ChangeLog.Content }}

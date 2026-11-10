@@ -13,10 +13,17 @@
 # limitations under the License.
 
 outputs:
- - template : "{{ .RootDir }}/{{ .Plugin.Type }}/README.tmpl"
+{{ if .Modules }} - template : "{{ .RootDir }}/{{ .Plugin.Type }}/README_MODULES.tmpl"
    target: README.md
    processExisting: true
-{{ if .Modules }}{{ range .Modules }} - template : "{{ $.RootDir }}/{{ $.Plugin.Type }}/POLICY_STUDIO_DOC_MODULE.tmpl"
+{{ range .Modules }} - template : "{{ $.RootDir }}/{{ $.Plugin.Type }}/README_MODULE.tmpl"
+   target: "{{ .Path }}/README.md"
+   processExisting: true
+   vars:
+     moduleId: "{{ .ID }}"
+     moduleName: "{{ .Name }}"
+     exportedAs: "{{ .ExportedAs }}"
+ - template : "{{ $.RootDir }}/{{ $.Plugin.Type }}/POLICY_STUDIO_DOC_MODULE.tmpl"
    target: "{{ .Path }}/docs/POLICY_STUDIO_DOC.md"
    processExisting: true
    vars:
@@ -24,7 +31,10 @@ outputs:
      moduleName: "{{ .Name }}"
      overviewChunk: "{{ .ExportedAs }}Overview"
      configChunk: "{{ .ExportedAs }}ConfigurationOptions"
-{{ end }}{{ else }} - template : "{{ .RootDir }}/{{ .Plugin.Type }}/POLICY_STUDIO_DOC.tmpl"
+{{ end }}{{ else }} - template : "{{ .RootDir }}/{{ .Plugin.Type }}/README.tmpl"
+   target: README.md
+   processExisting: true
+ - template : "{{ .RootDir }}/{{ .Plugin.Type }}/POLICY_STUDIO_DOC.tmpl"
    target: docs/POLICY_STUDIO_DOC.md
 {{ end }}
 chunks:
@@ -55,32 +65,42 @@ chunks:
 {{ if .Modules }}{{ range .Modules }}  - template: "{{ .Path }}/.docgen/overview.md"
     exportedAs: "{{ .ExportedAs }}Overview"
     required: true
+  - template: "{{ .Path }}/.docgen/usage.md"
+    exportedAs: "{{ .ExportedAs }}Usage"
+  - template: "{{ $.RootDir }}/{{ $.Plugin.Type }}/errors.tmpl"
+    exportedAs: "{{ .ExportedAs }}Errors"
+    type: table
+    data:
+      table: "{{ .Path }}/.docgen/errors.yaml"
+      columns:
+        - key: Key
+        - params: Parameters
   - template: "{{ $.RootDir }}/configuration_options.tmpl"
     type: options
     required: true
     exportedAs: "{{ .ExportedAs }}ConfigurationOptions"
     data:
       schema: "{{ .Path }}/target/classes/schemas/schema-form.json"
+  - template: "{{ $.RootDir }}/examples.tmpl"
+    exportedAs: "{{ .ExportedAs }}GenExamples"
+    type: gen-examples
+    data:
+      module: "{{ .ID }}"
+      examples: "{{ .Path }}/.docgen/examples.yaml"
+      schema: "{{ .Path }}/target/classes/schemas/schema-form.json"
+  - template: "{{ $.RootDir }}/examples.tmpl"
+    exportedAs: "{{ .ExportedAs }}RawExamples"
+    type: raw-examples
+    data:
+      module: "{{ .ID }}"
+      examples: "{{ .Path }}/.docgen/examples.yaml"
+      schema: "{{ .Path }}/target/classes/schemas/schema-form.json"
 {{ end }}{{ else }}  - template: "{{ .RootDir }}/configuration_options.tmpl"
     type: options
     required: true
     data:
       schema: target/classes/schemas/schema-form.json
-{{ end }}{{ if .Modules }}  - template: "{{ .RootDir }}/examples.tmpl"
-    exportedAs: GenExamples
-    type: gen-examples
-    required: false
-    data:
-      examples: .docgen/examples.yaml
-      schema: "{{ (index .Modules 0).Path }}/target/classes/schemas/schema-form.json"
   - template: "{{ .RootDir }}/examples.tmpl"
-    exportedAs: RawExamples
-    type: raw-examples
-    required: false
-    data:
-      examples: .docgen/examples.yaml
-      schema: "{{ (index .Modules 0).Path }}/target/classes/schemas/schema-form.json"
-{{ else }}  - template: "{{ .RootDir }}/examples.tmpl"
     exportedAs: GenExamples
     type: gen-examples
     data:
