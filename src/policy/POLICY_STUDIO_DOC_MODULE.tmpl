@@ -1,4 +1,5 @@
 {{ $overviewKey := .Vars.overviewChunk }}{{ $configKey := .Vars.configChunk }}{{ $overview := index . $overviewKey }}{{ $config := index . $configKey -}}
+{{ $plugin := .Plugin }}{{ range .Modules }}{{ if and (eq .ID $.Vars.moduleId) .Plugin }}{{ $plugin = .Plugin }}{{ end }}{{ end -}}
 # {{ .Vars.moduleName }}
 
 ## Overview
@@ -10,8 +11,24 @@
 {{end }}
 
 ## Phases
-The `{{ .Plugin.ID }}` policy can be applied to the following API types and flow phases.
-{{ .Phases.Content }}
+The `{{ $plugin.ID }}` policy can be applied to the following API types and flow phases.
+
+### Compatible API types
+{{ range $_, $t := $plugin.ApiTypes }}
+* `{{ upper $t }}`
+{{- end }}
+
+### Supported flow phases:
+{{ range $_, $p := $plugin.FlowPhases }}
+* {{ title $p }}
+{{- end }}{{ if $plugin.GuardianPhases }}
+
+### Supported Guardian phases:
+As a step of a Guardian, run on the request or the response of the APIs that enable the Guardian.
+{{ range $_, $p := $plugin.GuardianPhases }}
+* {{ title $p }}
+{{- end }}
+{{- end }}
 
 {{ if $config.Exists }}
 ## Configuration options
